@@ -1,0 +1,24 @@
+[project]
+name = "flask-api"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "rpablogomes",email = "rpablo.gdr@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask-sqlalchemy (>=3.1.1,<4.0.0)",
+    "flask-marshmallow (>=1.3.0,<2.0.0)",
+    "pypi (>=2.1,<3.0)",
+    "marshmallow (>=3.26.1,<4.0.0)",
+    "flask (>=3.1.0,<4.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
