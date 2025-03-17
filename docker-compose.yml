@@ -2,15 +2,36 @@ version: '3.1'
 
 services:
   postgres:
-    image: postgres:latest
+    container_name: database
+    image: postgres:16-alpine
+    restart: always
     environment:
       POSTGRES_PASSWORD: flask
-      POSTGRES_USER:  
+      POSTGRES_USER: flask
       POSTGRES_DB: db
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  flask:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: flask
+      POSTGRES_PASSWORD: flask
+      POSTGRES_DB: db   
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    volumes:
+      - .:/usr/src/app
+    # command: "flask run"
 
 volumes:
   postgres_data:
