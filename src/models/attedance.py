@@ -1,4 +1,3 @@
-from flask_sqlalchemy import SQLAlchemy
 from src.db import db
     
 class Attendance(db.Model):
