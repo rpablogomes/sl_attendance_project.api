@@ -1,13 +1,10 @@
 from flask import Blueprint, request, jsonify
-from werkzeug.security import  generate_password_hash
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from src.models.employee import Employee
 from src.schemas.create import CreateSchema
 from src.schemas.login import LoginSchema
-from src.static.http_status_code import HTTP_400_BAD_REQUEST
-
-from src.static import HTTP_200_OK
+from src.static.http_status_code import HTTP_400_BAD_REQUEST,HTTP_200_OK
 
 employee = Blueprint("employee", __name__, url_prefix="/api/v1/employee")
 
@@ -31,7 +28,9 @@ def register():
     if employee:
         return jsonify({"message": "Email already exists"}), HTTP_400_BAD_REQUEST
 
-    password_hash = generate_password_hash(password)
+    password_hash = Employee.set_password(password)
+
+    print(type(password_hash))
 
     employee = Employee(
         email=email, 
@@ -44,9 +43,10 @@ def register():
 
     return jsonify(employee.dict()), 201
 
-@employee.get("/me/<int:id>")
-@jwt_required
+@employee.get("/me")
+@jwt_required()
 def get_employee():
-    employee = Employee.query.filter_by(id=id).first()
+    user_id = get_jwt_identity()
+    employee = Employee.query.filter_by(id=user_id).first()
 
     return jsonify(employee.dict()), HTTP_200_OK
