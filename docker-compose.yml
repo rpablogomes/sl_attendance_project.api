@@ -24,7 +24,8 @@ services:
       POSTGRES_PORT: postgresql://flask:flask@localhost:5432/db
       POSTGRES_USER: flask
       POSTGRES_PASSWORD: flask
-      POSTGRES_DB: db   
+      POSTGRES_DB: db  
+      JWT_SECRET_KEY: JWT_SECRET_KEY
     ports:
       - "5000:5000"
     depends_on:

@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+import logging
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from src.models.employee import Employee
@@ -43,10 +44,13 @@ def register():
 
     return jsonify(employee.dict()), 201
 
+logging.basicConfig(level=logging.DEBUG)
+
 @employee.get("/me")
 @jwt_required()
 def get_employee():
-    user_id = get_jwt_identity()
-    employee = Employee.query.filter_by(id=user_id).first()
+    employee = Employee.query.filter_by(id=14).first()
 
     return jsonify(employee.dict()), HTTP_200_OK
+
+    # return "ok", 200

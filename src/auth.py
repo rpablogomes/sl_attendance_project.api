@@ -19,7 +19,7 @@ def login():
         return jsonify(errors), 
 
     email = request.json.get("email")
-    password = request.json.get("password")
+    password = request.json.get("password") 
 
     employee = Employee.query.filter_by(email=email).first()
 
@@ -27,15 +27,15 @@ def login():
         is_pass_correct = Employee.check_password(password, employee.password_hash)
         if is_pass_correct:
             refresh = create_refresh_token(identity=employee.id)
-            access =  create_refresh_token(identity=employee.id)
+            access =  create_access_token(identity=employee.id)
 
             return jsonify({
                 "refresh": refresh,
                 "access": access,
                 **employee.dict()
             }), 200
-        else:
-            return jsonify({"message": "Invalid credentials"}), HTTP_400_BAD_REQUEST
+    else:
+        return jsonify({"message": "Invalid credentials"}), HTTP_400_BAD_REQUEST
                    
 @auth.post("/logout")
 @jwt_required(refresh=True)
@@ -44,7 +44,7 @@ def logout():
     return jsonify({"message": "Logged out"}), 200
 
 auth.post("/token/refresh")
-@jwt_required(refresh=True)
+@jwt_required()
 def refresh_user_token():
     identity = get_jwt_identity()
     access = create_access_token(identity=identity)
