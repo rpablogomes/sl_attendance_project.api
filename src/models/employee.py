@@ -1,8 +1,8 @@
 from src.db import db
-from flask_login import UserMixin
+# from flask_login import UserMixin
 from src import bcrypt
 
-class Employee(db.Model, UserMixin):
+class Employee(db.Model): ##, UserMixin
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False) 
     family_name = db.Column(db.String(100), nullable=False)

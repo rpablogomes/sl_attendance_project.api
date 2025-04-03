@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from flask_login import logout_user
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, create_refresh_token
+from flask_restx import Namespace
 
 from src.models.employee import Employee
 from src.schemas.create import CreateSchema
@@ -8,12 +8,15 @@ from src.schemas.login import LoginSchema
 from src.static.http_status_code import HTTP_400_BAD_REQUEST, HTTP_200_OK
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
+auth_ns = Namespace("auth", description="Authentication related operations")
 
 create_schema = CreateSchema()
 login_schema = LoginSchema()
 
 @auth.post("/login")
 def login():
+    """Example endpoint returning a list of colors by palette
+    This is using docstrings for specifications."""
     errors = login_schema.validate(request.json)
     if errors:
         return jsonify(errors), 
@@ -40,12 +43,15 @@ def login():
 @auth.post("/logout")
 @jwt_required(refresh=True)
 def logout():
-    logout_user()
-    return jsonify({"message": "Logged out"}), 200
+    """Example endpoint returning a list of colors by palette
+    This is using docstrings for specifications."""
+    return jsonify({"message": "Logged out"}), HTTP_200_OK
 
-auth.post("/token/refresh")
-@jwt_required()
-def refresh_user_token():
+@auth.post("/token/refresh")
+@jwt_required(refresh=True)
+def refresh_user_token():  
+    """Example endpoint returning a list of colors by palette
+    This is using docstrings for specifications."""
     identity = get_jwt_identity()
     access = create_access_token(identity=identity)
 

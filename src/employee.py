@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import logging
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_restx import Api, Resource, Namespace
 
 from src.models.employee import Employee
 from src.schemas.create import CreateSchema
@@ -8,13 +9,13 @@ from src.schemas.login import LoginSchema
 from src.static.http_status_code import HTTP_400_BAD_REQUEST,HTTP_200_OK
 
 employee = Blueprint("employee", __name__, url_prefix="/api/v1/employee")
+employee_ns = Namespace("employee", description="Employee Management Endpoints")
 
 create_schema = CreateSchema()
 login_schema = LoginSchema()
 
 @employee.post("/register")
 def register():
-    
     errors = create_schema.validate(request.json)
     if errors:
         return jsonify(errors), HTTP_400_BAD_REQUEST
@@ -49,8 +50,10 @@ logging.basicConfig(level=logging.DEBUG)
 @employee.get("/me")
 @jwt_required()
 def get_employee():
-    employee = Employee.query.filter_by(id=14).first()
+    """Example endpoint returning a list of colors by palette
+    This is using docstrings for specifications."""
+    user_id = get_jwt_identity()
+    print(user_id)
+    employee = Employee.query.filter_by(id=user_id).first()
 
     return jsonify(employee.dict()), HTTP_200_OK
-
-    # return "ok", 200
