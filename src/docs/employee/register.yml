@@ -1,0 +1,59 @@
+summary: Register a new employee
+tags:
+  - Employee
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          email:
+            type: string
+            example: user@example.com
+          password:
+            type: string
+            example: secret123
+          name:
+            type: string
+            example: John
+          family_name:
+            type: string
+            example: Doe
+        required:
+          - email
+          - password
+          - name
+          - family_name
+    security:
+      - Bearer: []
+responses:
+  201:
+    description: Employee registered successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            email:
+              type: string
+              example: user@example.com
+            name:
+              type: string
+              example: John
+            family_name:
+              type: string
+              example: Doe
+  400:
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Email already exists

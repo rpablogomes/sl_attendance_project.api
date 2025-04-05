@@ -1,4 +1,4 @@
-from src.db import db
+from src.database.db import db
     
 class Attendance(db.Model):
     id = db.Column(db.Integer, primary_key=True)

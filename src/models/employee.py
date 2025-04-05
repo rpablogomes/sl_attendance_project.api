@@ -1,4 +1,4 @@
-from src.db import db
+from src.database.db import db
 # from flask_login import UserMixin
 from src import bcrypt
 

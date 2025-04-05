@@ -1,13 +1,10 @@
 from flask import Flask
 import os
 from flask_migrate import Migrate
-from flask_bcrypt import Bcrypt 
 from flask_jwt_extended import JWTManager
 from flask_marshmallow import Marshmallow
-from flask_restx import Api
-
-from src.db import db, init_db
-
+from flask_bcrypt import Bcrypt
+from flask_smorest import Api
 bcrypt = Bcrypt()
 
 def create_app(test_config=None): 
@@ -21,26 +18,34 @@ def create_app(test_config=None):
             SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DATABASE_URI"),
             SQLALCHEMY_TRACK_MODIFICATIONS = False,
         )
+        app.config["API_TITLE"] = "My API"
+        app.config["API_VERSION"] = "v1"
+        app.config["OPENAPI_VERSION"] = "3.0.2"
+        app.config["OPENAPI_JSON_PATH"] = "api-spec.json"
+        app.config["OPENAPI_URL_PREFIX"] = "/"
+        app.config["OPENAPI_REDOC_PATH"] = "/redoc"
+        app.config["OPENAPI_REDOC_URL"] = "https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"
+        app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
+        app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
+        app.config["OPENAPI_RAPIDOC_PATH"] = "/rapidoc"
+        app.config["OPENAPI_RAPIDOC_URL"] = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
+
     else:
         app.config.from_mapping(test_config)
 
-    api = Api(app, title="Bookmarks API", version="1.0", description="Employee Management API")
+    from src.database.db import db, init_db
+
     init_db(app)
     Migrate(app, db)
     Marshmallow(app)
     JWTManager(app)
-    
-    from src.auth import auth, auth_ns
-    from src.employee import employee, employee_ns
 
-    # Register blueprints / routes
-    app.register_blueprint(auth)
-    app.register_blueprint(employee)
+    from src.auth import auth
+    from src.employee import employee
 
-    # swagger
-    
-    api.add_namespace(employee_ns)
-    api.add_namespace(auth_ns)
+    api = Api(app)
+    api.register_blueprint(auth)
+    api.register_blueprint(employee)
 
     # Register models
     from src.models.employee import Employee
