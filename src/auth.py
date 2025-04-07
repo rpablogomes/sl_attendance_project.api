@@ -1,19 +1,20 @@
-from flask import request, jsonify
+from flask import jsonify
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, create_refresh_token
 from flask_smorest import Blueprint
 
 from src.models.employee import Employee
 from src.schemas.auth.login import LoginSchema
+
 from src.static.http_status_code import HTTP_400_BAD_REQUEST ,HTTP_200_OK
 
-auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
+auth_blp = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
 
-@auth.route("/login")
+@auth_blp.route("/login")
 class Login(MethodView):
-    @auth.arguments(LoginSchema)
-    @auth.response(HTTP_200_OK, LoginSchema)
+    @auth_blp.arguments(LoginSchema)
     def post(self, args):
+        """Login by email and password"""
         email = args.get("email")
         password = args.get("password")
 
@@ -31,16 +32,21 @@ class Login(MethodView):
 
         return jsonify({"message": "Invalid credentials"}), HTTP_400_BAD_REQUEST
 
-@auth.route("/logout")
-class Logout(MethodView):
-    @jwt_required(refresh=True)
-    def post(self):
-        return jsonify({"message": "Logged out"}), HTTP_200_OK
+# ## I am using jwt. Logout does not make any sense because I can't exclude the functionality of the token.
+# @auth.route("/logout")
+# @auth.arguments(LoginSchema)
+# @auth.response(HTTP_200_OK, LoginSchema)
+# class Logout(MethodView):
+#     @jwt_required(refresh=True)
+#     def post(self):
+#         """Logout"""
+#         return jsonify({"message": "Logged out"}), HTTP_200_OK
 
-@auth.route("/token/refresh")
-class TokenRefresh(MethodView):
+@auth_blp.route("/token/refresh")
+class RefreshToken(MethodView):
     @jwt_required(refresh=True)
     def post(self):
+        """To refresh token"""
         identity = get_jwt_identity()
         access = create_access_token(identity=identity)
         return jsonify({"access": access}), HTTP_200_OK

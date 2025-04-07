@@ -1,28 +1,23 @@
-from flask import request, jsonify
+from flask import jsonify
 from flask.views import MethodView
-import logging
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_smorest import Blueprint
 
 from src.models.employee import Employee
 from src.schemas.employee.register import RegisterSchema
-from src.schemas.auth.login import LoginSchema
 from src.static.http_status_code import HTTP_400_BAD_REQUEST,HTTP_200_OK
 
-employee = Blueprint("employee", __name__, url_prefix="/api/v1/employee", description="Employee Management Endpoints")
+employee_blp = Blueprint("employee", __name__, url_prefix="/api/v1/employee", description="Employee Management Endpoints")
 
-login_schema = LoginSchema()
-
-@employee.route("/register")
-@employee.arguments(RegisterSchema, location="query")
-@employee.response(200, RegisterSchema())
-@employee.response(400, RegisterSchema())
+@employee_blp.route("/register")
 class Register(MethodView):
-    def post(self):
-        email = request.json.get("email")
-        password = request.json.get("password")
-        name = request.json.get("name")
-        family_name = request.json.get("family_name")
+    @employee_blp.arguments(RegisterSchema)
+    def post(self, args):
+        """Create a employee"""
+        email = args.get("email")
+        password = args.get("password")
+        name = args.get("name")
+        family_name = args.get("family_name")
 
         employee = Employee.query.filter_by(email=email).first()
 
@@ -39,15 +34,20 @@ class Register(MethodView):
             )
         
         employee.save()
+        
+        return jsonify({
+            "message": "Employee created successfully",
+            **employee.dict()
+        }), HTTP_200_OK
 
-@employee.route("/me")
-class Employee(MethodView):
+@employee_blp.route("/me")
+@employee_blp.response(200, RegisterSchema())
+@employee_blp.response(400, RegisterSchema())
+class Me(MethodView):
     @jwt_required()
     def get(self):
-        """Example endpoint returning a list of colors by palette
-        This is using docstrings for specifications."""
+        """Return data of employee"""
         user_id = get_jwt_identity()
-        print(user_id)
         employee = Employee.query.filter_by(id=user_id).first()
 
         return jsonify(employee.dict()), HTTP_200_OK

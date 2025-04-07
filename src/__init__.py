@@ -7,6 +7,8 @@ from flask_bcrypt import Bcrypt
 from flask_smorest import Api
 bcrypt = Bcrypt()
 
+from src.database.db import db, init_db
+
 def create_app(test_config=None): 
     app = Flask(__name__, instance_relative_config=True)
     
@@ -29,23 +31,34 @@ def create_app(test_config=None):
         app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
         app.config["OPENAPI_RAPIDOC_PATH"] = "/rapidoc"
         app.config["OPENAPI_RAPIDOC_URL"] = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
+        app.config['API_SPEC_OPTIONS'] = {
+            'security':[{"bearerAuth": []}],
+            'components':{
+                "securitySchemes":
+                    {
+                        "bearerAuth": {
+                            "type":"http",
+                            "scheme": "bearer",
+                            "bearerFormat": "JWT"
+                        }
+                    }
+                }
+            }
 
     else:
         app.config.from_mapping(test_config)
-
-    from src.database.db import db, init_db
-
+        
+    api = Api(app)
     init_db(app)
     Migrate(app, db)
     Marshmallow(app)
     JWTManager(app)
 
-    from src.auth import auth
-    from src.employee import employee
+    from src.auth import auth_blp
+    from src.employee import employee_blp
 
-    api = Api(app)
-    api.register_blueprint(auth)
-    api.register_blueprint(employee)
+    api.register_blueprint(auth_blp)
+    api.register_blueprint(employee_blp)
 
     # Register models
     from src.models.employee import Employee
