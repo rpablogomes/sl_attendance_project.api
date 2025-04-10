@@ -141,12 +141,12 @@ version = "0.4.6"
 description = "Cross-platform colored terminal text."
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
-groups = ["main", "dev"]
+groups = ["main"]
+markers = "platform_system == \"Windows\" or sys_platform == \"win32\""
 files = [
     {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
-markers = {main = "platform_system == \"Windows\"", dev = "sys_platform == \"win32\""}
 
 [[package]]
 name = "exceptiongroup"
@@ -154,7 +154,7 @@ version = "1.2.2"
 description = "Backport of PEP 654 (exception groups)"
 optional = false
 python-versions = ">=3.7"
-groups = ["dev"]
+groups = ["main"]
 markers = "python_version < \"3.11\""
 files = [
     {file = "exceptiongroup-1.2.2-py3-none-any.whl", hash = "sha256:3111b9d131c238bec2f8f516e123e14ba243563fb135d3fe885990585aa7795b"},
@@ -400,7 +400,7 @@ version = "2.1.0"
 description = "brain-dead simple config-ini parsing"
 optional = false
 python-versions = ">=3.8"
-groups = ["dev"]
+groups = ["main"]
 files = [
     {file = "iniconfig-2.1.0-py3-none-any.whl", hash = "sha256:9deba5723312380e77435581c6bf4935c94cbfab9b1ed33ef8d238ea168eb760"},
     {file = "iniconfig-2.1.0.tar.gz", hash = "sha256:3abbd2e30b36733fee78f9c7f7308f2d0050e88f0087fd25c2645f63c773e1c7"},
@@ -438,14 +438,14 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "mako"
-version = "1.3.9"
+version = "1.3.10"
 description = "A super-fast templating language that borrows the best ideas from the existing templating languages."
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "Mako-1.3.9-py3-none-any.whl", hash = "sha256:95920acccb578427a9aa38e37a186b1e43156c87260d7ba18ca63aa4c7cbd3a1"},
-    {file = "mako-1.3.9.tar.gz", hash = "sha256:b5d65ff3462870feec922dbccf38f6efb44e5714d7b593a656be86663d8600ac"},
+    {file = "mako-1.3.10-py3-none-any.whl", hash = "sha256:baef24a52fc4fc514a0887ac600f9f1cff3d82c61d4d700a1fa84d597b88db59"},
+    {file = "mako-1.3.10.tar.gz", hash = "sha256:99579a6f39583fa7e5630a28c3c1f440e4e97a414b80372649c0ce338da2ea28"},
 ]
 
 [package.dependencies]
@@ -549,14 +549,14 @@ tests = ["pytest", "simplejson"]
 
 [[package]]
 name = "marshmallow-sqlalchemy"
-version = "1.4.1"
+version = "1.4.2"
 description = "SQLAlchemy integration with the marshmallow (de)serialization library"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "marshmallow_sqlalchemy-1.4.1-py3-none-any.whl", hash = "sha256:9a3dd88a2b24f425fbffb3fea8aeb7f424a932fc97372a9f1338b7a379396191"},
-    {file = "marshmallow_sqlalchemy-1.4.1.tar.gz", hash = "sha256:b4aa964356d00e178bdb8469a28daa9022b375ff4f5c04f8e2b9aafe1e65c529"},
+    {file = "marshmallow_sqlalchemy-1.4.2-py3-none-any.whl", hash = "sha256:65aee301c4601e76a2fdb02764a65c18913afba2a3506a326c625d13ab405b40"},
+    {file = "marshmallow_sqlalchemy-1.4.2.tar.gz", hash = "sha256:6410304bf98ec26ea35f3f9d3cee82e51fd093c434612add32a0bdcdb5668f7c"},
 ]
 
 [package.dependencies]
@@ -565,7 +565,7 @@ SQLAlchemy = ">=1.4.40,<3.0"
 
 [package.extras]
 dev = ["marshmallow-sqlalchemy[tests]", "pre-commit (>=3.5,<5.0)", "tox"]
-docs = ["furo (==2024.8.6)", "sphinx (==8.1.3)", "sphinx-copybutton (==0.5.2)", "sphinx-design (==0.6.1)", "sphinx-issues (==5.0.0)", "sphinxext-opengraph (==0.9.1)"]
+docs = ["furo (==2024.8.6)", "sphinx (==8.2.3) ; python_version >= \"3.11\"", "sphinx-copybutton (==0.5.2)", "sphinx-design (==0.6.1)", "sphinx-issues (==5.0.0)", "sphinxext-opengraph (==0.10.0)"]
 tests = ["pytest (<9)", "pytest-lazy-fixtures"]
 
 [[package]]
@@ -640,7 +640,7 @@ version = "24.2"
 description = "Core utilities for Python packages"
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "dev"]
+groups = ["main"]
 files = [
     {file = "packaging-24.2-py3-none-any.whl", hash = "sha256:09abb1bccd265c01f4a3aa3f7a7db064b36514d2cba19a2f694fe6150451a759"},
     {file = "packaging-24.2.tar.gz", hash = "sha256:c228a6dc5e932d346bc5739379109d49e8853dd8223571c7c5b55260edc0b97f"},
@@ -652,7 +652,7 @@ version = "1.5.0"
 description = "plugin and hook calling mechanisms for python"
 optional = false
 python-versions = ">=3.8"
-groups = ["dev"]
+groups = ["main"]
 files = [
     {file = "pluggy-1.5.0-py3-none-any.whl", hash = "sha256:44e1ad92c8ca002de6377e165f3e0f1be63266ab4d554740532335b9d75ea669"},
     {file = "pluggy-1.5.0.tar.gz", hash = "sha256:2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f1d0cf1"},
@@ -764,7 +764,7 @@ version = "8.3.5"
 description = "pytest: simple powerful testing with Python"
 optional = false
 python-versions = ">=3.8"
-groups = ["dev"]
+groups = ["main"]
 files = [
     {file = "pytest-8.3.5-py3-none-any.whl", hash = "sha256:c69214aa47deac29fad6c2a4f590b9c4a9fdb16a403176fe154b79c0b4d4d820"},
     {file = "pytest-8.3.5.tar.gz", hash = "sha256:f4efe70cc14e511565ac476b57c279e12a855b11f48f212af1080ef2263d3845"},
@@ -780,6 +780,26 @@ tomli = {version = ">=1", markers = "python_version < \"3.11\""}
 
 [package.extras]
 dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
+
+[[package]]
+name = "pytest-flask"
+version = "1.3.0"
+description = "A set of py.test fixtures to test Flask applications."
+optional = false
+python-versions = ">=3.7"
+groups = ["main"]
+files = [
+    {file = "pytest-flask-1.3.0.tar.gz", hash = "sha256:58be1c97b21ba3c4d47e0a7691eb41007748506c36bf51004f78df10691fa95e"},
+    {file = "pytest_flask-1.3.0-py3-none-any.whl", hash = "sha256:c0e36e6b0fddc3b91c4362661db83fa694d1feb91fa505475be6732b5bc8c253"},
+]
+
+[package.dependencies]
+Flask = "*"
+pytest = ">=5.2"
+Werkzeug = "*"
+
+[package.extras]
+docs = ["Sphinx", "sphinx-rtd-theme"]
 
 [[package]]
 name = "python-dotenv"
@@ -898,7 +918,7 @@ version = "2.2.1"
 description = "A lil' TOML parser"
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "dev"]
+groups = ["main"]
 markers = "python_version < \"3.11\""
 files = [
     {file = "tomli-2.2.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:678e4fa69e4575eb77d103de3df8a895e1591b48e740211bd1067378c69e8249"},
@@ -937,14 +957,14 @@ files = [
 
 [[package]]
 name = "typing-extensions"
-version = "4.13.0"
+version = "4.13.2"
 description = "Backported and Experimental Type Hints for Python 3.8+"
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "typing_extensions-4.13.0-py3-none-any.whl", hash = "sha256:c8dd92cc0d6425a97c18fbb9d1954e5ff92c1ca881a309c45f06ebc0b79058e5"},
-    {file = "typing_extensions-4.13.0.tar.gz", hash = "sha256:0a4ac55a5820789d87e297727d229866c9650f6521b64206413c4fbada24d95b"},
+    {file = "typing_extensions-4.13.2-py3-none-any.whl", hash = "sha256:a439e7c04b49fec3e5d3e2beaa21755cadbbdc391694e28ccdd36ca4a1408f8c"},
+    {file = "typing_extensions-4.13.2.tar.gz", hash = "sha256:e6c81219bd689f51865d9e372991c540bda33a0379d5573cddb9a3a23f7caaef"},
 ]
 
 [[package]]
@@ -990,4 +1010,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10, <4.0"
-content-hash = "84ca44b286e031225a0e54e86d29221345bd682e95d8ef434a494827c84e6359"
+content-hash = "06d7ff0dcd265be4a3bf6380da188c61df41fedf598d97422a5c2f26a9d93335"

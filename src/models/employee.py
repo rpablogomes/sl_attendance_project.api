@@ -1,7 +1,7 @@
 from src.database.db import db
 from src import bcrypt
 
-class Employee(db.Model): ##, UserMixin
+class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False) 
     family_name = db.Column(db.String(100), nullable=False)
