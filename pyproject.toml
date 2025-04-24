@@ -2,23 +2,21 @@
     name = "flask-api"
     version = "0.1.0"
     description = ""
+    packages = [
+    { include = "src" }
+]
 
 [tool.poetry.dependencies]
-    python = ">=3.10, <4.0"
+    python = ">=3.12,<3.13"
     flask = ">=3.1.0,<4.0.0"
-    flask-sqlalchemy = ">=3.1.1,<4.0.0"
-    flask-marshmallow = ">=1.3.0,<2.0.0"
-    marshmallow = ">=3.26.1,<4.0.0"
-    psycopg2-binary = ">=2.9.10,<3.0.0"
-    marshmallow-sqlalchemy = ">=1.4.1,<2.0.0"
-    python-dotenv = "^1.0.1"
-    flask-bcrypt = "^1.0.1"
-    flask-migrate = "^4.1.0"
-    mypy = "^1.15.0"
-    pyJwt="2.9.0"
-    flask-jwt-extended = "^4.7.1"
     flask-smorest = "^0.45.0"
-    pytest-flask = "^1.3.0"
+    python-dotenv = "^1.1.0"
+    spacy = "^3.8.5"
+    torch = "2.2.1"
+    groq = "^0.23.0"
+    numpy = "^1.26"
+pinecone = "^6.0.2"
+sentence-transformers = "^4.1.0"
 
 [build-system]
     requires = ["poetry-core>=2.0.0,<3.0.0"]

@@ -1,25 +1,13 @@
 from flask import Flask
 import os
-from flask_migrate import Migrate
-from flask_jwt_extended import JWTManager
-from flask_marshmallow import Marshmallow
-from flask_bcrypt import Bcrypt
 from flask_smorest import Api
-bcrypt = Bcrypt()
 
-from src.database.db import db, init_db
 
 def create_app(test_config=None): 
     app = Flask(__name__, instance_relative_config=True)
     
     if test_config is None:
-        app.config["DEBUG"] = True 
-        app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'JWT_SECRET_KEY')
-        app.config.from_mapping(
-            SECRET_KEY=os.environ.get("SECRET_KEY"),
-            SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DATABASE_URI"),
-            SQLALCHEMY_TRACK_MODIFICATIONS = False,
-        )
+
         app.config["API_TITLE"] = "My API"
         app.config["API_VERSION"] = "v1"
         app.config["OPENAPI_VERSION"] = "3.0.2"
@@ -31,38 +19,14 @@ def create_app(test_config=None):
         app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
         app.config["OPENAPI_RAPIDOC_PATH"] = "/rapidoc"
         app.config["OPENAPI_RAPIDOC_URL"] = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
-        app.config['API_SPEC_OPTIONS'] = {
-            'security':[{"bearerAuth": []}],
-            'components':{
-                "securitySchemes":
-                    {
-                        "bearerAuth": {
-                            "type":"http",
-                            "scheme": "bearer",
-                            "bearerFormat": "JWT"
-                        }
-                    }
-                }
-            }
 
     else:
         app.config.from_mapping(test_config)
         
     api = Api(app)
-    init_db(app)
-    Migrate(app, db)
-    Marshmallow(app)
-    JWTManager(app)
 
-    from src.auth import auth_blp
-    from src.employee import employee_blp
+    from src.main import llm_blp
 
-    api.register_blueprint(auth_blp)
-    api.register_blueprint(employee_blp)
-
-    # Register models
-    from src.models.employee import Employee
-    from src.models.leave_request import LeaveRequest
-    from src.models.attedance import Attendance
+    api.register_blueprint(llm_blp)
 
     return app

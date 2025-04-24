@@ -1,0 +1,26 @@
+[
+    {
+        "input": "Atopic Dermatitis",
+        "output": ["Eczema", "Atopic Eczema", "Allergic Eczema", "Infantile Eczema"]
+    },
+    {
+        "input": "Asthma",
+        "output": ["Bronchial Asthma", "Allergic Asthma", "Reactive Airway Disease", "Exercise-Induced Bronchospasm"]
+    },
+    {
+        "input": "Chronic Rhinosinusitis with Nasal Polyps",
+        "output": ["CRSwNP", "Nasal Polyposis", "Chronic Sinusitis with Polyps", "Chronic Sinus Infection with Polyps"]
+    },
+    {
+        "input": "Eosinophilic Esophagitis",
+        "output": ["EoE", "Allergic Esophagitis", "Eosinophilic GI Disorder", "Eosinophilic Gastrointestinal Disorder"]
+    },
+    {
+        "input": "Prurigo Nodularis",
+        "output": ["Nodular Prurigo", "Neurodermatitis Circumscripta", "Lichen Simplex Chronicus", "Chronic Nodular Itch"]
+    },
+    {
+        "input": "Chronic Obstructive Pulmonary Disease",
+        "output": ["COPD", "Chronic Bronchitis", "Emphysema", "Chronic Obstructive Lung Disease", "Chronic Airflow Limitation"]
+    }
+]
